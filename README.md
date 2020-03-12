@@ -1,4 +1,4 @@
-NodeJs TODO APP
+
 Steps to setup and run the project
 
 1.Install MySQL by following the below link.
