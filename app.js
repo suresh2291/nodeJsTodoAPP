@@ -20,19 +20,10 @@ app.use(function(req, res, next) {
 
 // routes ======================================================================
 require('./config/routes.js')(app); // load our routes and pass in our app and fully configured passport
-
-// https.createServer({
-//     key: fs.readFileSync('key.pem'),
-//     cert: fs.readFileSync('certificate.pem'),
-//     passphrase : 'terminal2',
-//   }, app)
-//   .listen(8443, function () {
-//     console.log('Example app listening on 8443! Go to localhost:8443/')
-//   })
-// http.createServer(app)
-//     .listen(8000, function () {
-//       console.log('Example app listening on 8443! Go to localhost:8443/')
-//     })
-  app.listen(port);
-  console.log('API are working on port ' + port);
+app.use((error, req, res, next)=>{
+  console.log('app.js error ',error)
+res.json({"error":error.message || error.sqlMessage})
+})
+app.listen(port);
+console.log('API are working on port ' + port);
 exports = module.exports = app;
