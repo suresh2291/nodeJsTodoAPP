@@ -11,11 +11,11 @@ var connection = mysql.createConnection({
   database: 'todoschema',
   multipleStatements: true
 })//connecting to mysql db
-connection.connect(function(err,result) {
+connection.connect(async function(err,result) {
     if (err) {
-      return console.error('error: ' + err.message);
+     await console.error('error: ' + err.message);
     }
-    console.log('Connected to the MySQL server.');
+   await console.log('Connected to the MySQL server.');
   });//checking the connection or error
 
 module.exports = connection;  

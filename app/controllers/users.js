@@ -17,6 +17,7 @@ router.post('/signup', async (req, res, next) => {
     let matched = await validateUserData.check()
     console.log(matched)
     if (!matched) {
+        console.log('not matched')
         next(validateUserData.errors)
     } else {
         const password = await bcrypt.hash(req.body.Password, 10)
@@ -27,7 +28,6 @@ router.post('/signup', async (req, res, next) => {
                 return res.status(201).json({ "message": "User Created" })
             }
         })
-
     }
 })
 
@@ -38,8 +38,10 @@ router.post('/signin', (req, res, next) => {
             next(errmessage)
         } else {
             const generatetoken = await jwt.sign({ Id: userData[0].Id }, 'myPrivateKey')
+            console.log('generated token  ', generatetoken)
             let comparePassword = await bcrypt.compareSync(req.body.Password, userData[0].Password)
             const decode = await jwt.verify(generatetoken, 'myPrivateKey')
+
             if (comparePassword == true && decode.Id == userData[0].Id) {
                 return res.status(200).send({ "message": "User Data Match and Logged In Successfully", "token": generatetoken })
             } else {

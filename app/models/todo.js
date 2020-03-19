@@ -26,6 +26,10 @@ var todo = {
         let query = `SELECT * FROM todo WHERE userId = ${userId}`;
         return db.query(query, callback);
     },
+    getExistingTodoData: (title,userId, callback) => {
+        let query = `SELECT COUNT(*) AS userCount FROM todo WHERE userId = ${userId} AND title = ${JSON.stringify(title)}`;
+        return db.query(query, callback);
+    },
     updateTodo: (body, userId, callback) => {
         let query = `UPDATE todo 
         SET 

@@ -14,15 +14,15 @@ router.post('/addtodo/:userId', routeProtect, async(req,res,next)=>{
     if (!matched) {
         return res.status(400).send(validateTodoData.errors)
       }else{
-        todo.getTodoByUserId(req.params.userId,(err,userData)=>{ 
-        //console.log(userData.length)
-            if(userData.length==0){
+        todo.getExistingTodoData(req.body.title,req.params.userId,(err,userData)=>{ 
+        console.log(userData)
+            if(userData[0].userCount==0){
                 todo.insertTodo(req.body,req.params.userId, (err,result)=>{
                     if (err || result.length == 0) {
                         const errmessage = new Error('No data found')
                         next(errmessage)
                     }else{
-                        return res.status(200).send({ "message": result })
+                        return res.status(201).send({ "message": "Created" })
                     }
                 })
             }else{
@@ -33,7 +33,7 @@ router.post('/addtodo/:userId', routeProtect, async(req,res,next)=>{
     })
     }
 })
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     todo.getAllTodo((err, result) => {
         if (err || result.length == 0) {
             const errmessage = new Error('No data found')
@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:userId',routeProtect, (req, res) => {
+router.get('/:userId',routeProtect, (req, res, next) => {
     todo.getTodoByUserId(req.params.userId,(err,result)=>{
         if (err || result.length == 0) {
             const errmessage = new Error('No data found')
@@ -56,7 +56,7 @@ router.get('/:userId',routeProtect, (req, res) => {
 })
 
 //UPDATING USER DATA
-router.patch('/:userId', routeProtect,  (req, res) => {
+router.patch('/:userId', routeProtect,  (req, res, next) => {
     todo.updateTodo(req.body,req.params.userId,(err,result)=>{
         if (err || result.length == 0) {
             const errmessage = new Error('No data found')
@@ -67,7 +67,7 @@ router.patch('/:userId', routeProtect,  (req, res) => {
     })
 })
 
-router.delete('/:Id/:userId', routeProtect, (req, res) => {
+router.delete('/:Id/:userId', routeProtect, (req, res, next) => {
     todo.deletetodo(req.params.Id,(err,result)=>{
         if (err || result.length == 0) {
             const errmessage = new Error('No data found')
