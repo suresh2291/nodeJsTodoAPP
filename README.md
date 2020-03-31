@@ -30,6 +30,5 @@ Run "npm start" command in the Visual Studio Code terminal.The application will 
 
 7.import the postman collection,"Todos.postman_collection.json".<br />
 
-8.watch the video "nodejs.mkv" for demo.<br />
 
  
